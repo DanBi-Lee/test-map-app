@@ -42,6 +42,11 @@ dependencies:
     specifier: 5.1.6
     version: 5.1.6
 
+devDependencies:
+  '@types/navermaps':
+    specifier: ^3.6.5
+    version: 3.6.5
+
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:
@@ -286,9 +291,19 @@ packages:
       tslib: 2.6.0
     dev: false
 
+  /@types/geojson@7946.0.10:
+    resolution: {integrity: sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==}
+    dev: true
+
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: false
+
+  /@types/navermaps@3.6.5:
+    resolution: {integrity: sha512-qY+QPdy6pEK70rDIlwMDCyUnKLbzKPXInCSu0Yj/jv/enQGCUowSZiTiRxDKVWLSzs5eCDwLJY56qjJXTVvM8g==}
+    dependencies:
+      '@types/geojson': 7946.0.10
+    dev: true
 
   /@types/node@20.4.4:
     resolution: {integrity: sha512-CukZhumInROvLq3+b5gLev+vgpsIqC2D0deQr/yS1WnxvmYLlJXZpaQrQiseMY+6xusl79E04UjWoqyr+t1/Ew==}
