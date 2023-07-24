@@ -1,5 +1,6 @@
 "use client";
 
+import { DriveService } from "@/service/driving_service";
 import { useEffect, useRef, useState } from "react";
 
 export default function MapPage() {
@@ -28,12 +29,14 @@ export default function MapPage() {
     });
   }, []);
 
+  const { getPath } = new DriveService();
+
   return (
     <>
       <script
         async
         type="text/javascript"
-        src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_NPC_CLIENT_ID}`}
+        src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_NAVER_CLIENT_ID}`}
       ></script>
       <div className="relative">
         <div id="map" className="w-full h-[100vh]" />
@@ -50,6 +53,18 @@ export default function MapPage() {
                 } else {
                   markerStart.current.setPosition(currentCoord.current);
                 }
+
+                if (markerStart.current && markerGoal.current) {
+                  getPath(
+                    `${markerStart.current.getPosition()?.x},${
+                      markerStart.current.getPosition()?.y
+                    }`,
+                    `${markerGoal.current.getPosition()?.x},${
+                      markerGoal.current.getPosition()?.y
+                    }`
+                  );
+                }
+
                 setShowMapModal(false);
               }}
               className="bg-white p-2 rounded-md"
@@ -66,6 +81,18 @@ export default function MapPage() {
                   });
                 }
                 markerGoal.current.setPosition(currentCoord.current);
+
+                if (markerStart.current && markerGoal.current) {
+                  getPath(
+                    `${markerStart.current.getPosition()?.x},${
+                      markerStart.current.getPosition()?.y
+                    }`,
+                    `${markerGoal.current.getPosition()?.x},${
+                      markerGoal.current.getPosition()?.y
+                    }`
+                  );
+                }
+
                 setShowMapModal(false);
               }}
               className="bg-white p-2 rounded-md"
