@@ -31,6 +31,29 @@ export default function MapPage() {
 
   const { getPath } = new DriveService();
 
+  const drawDrivingPath = async () => {
+    if (markerStart.current && markerGoal.current) {
+      const response = await getPath(
+        `${markerStart.current.getPosition()?.x},${
+          markerStart.current.getPosition()?.y
+        }`,
+        `${markerGoal.current.getPosition()?.x},${
+          markerGoal.current.getPosition()?.y
+        }`
+      );
+
+      const data = await response.json();
+      console.log(data.data.route.traoptimal[0].path);
+
+      const path = new naver.maps.Polyline({
+        map: _map.current,
+        path: data.data.route.traoptimal[0].path.map(
+          (path: any) => new naver.maps.LatLng(path[1], path[0])
+        ),
+      });
+    }
+  };
+
   return (
     <>
       <script
@@ -43,7 +66,7 @@ export default function MapPage() {
         {showMapModal && (
           <div className="w-full h-full absolute top-0 left-0 bg-[rgba(0,0,0,0.3)] flex justify-center items-center gap-4">
             <button
-              onClick={() => {
+              onClick={async () => {
                 if (!markerStart.current) {
                   markerStart.current = new naver.maps.Marker({
                     position: new naver.maps.LatLng(currentCoord.current),
@@ -54,16 +77,7 @@ export default function MapPage() {
                   markerStart.current.setPosition(currentCoord.current);
                 }
 
-                if (markerStart.current && markerGoal.current) {
-                  getPath(
-                    `${markerStart.current.getPosition()?.x},${
-                      markerStart.current.getPosition()?.y
-                    }`,
-                    `${markerGoal.current.getPosition()?.x},${
-                      markerGoal.current.getPosition()?.y
-                    }`
-                  );
-                }
+                drawDrivingPath();
 
                 setShowMapModal(false);
               }}
@@ -82,16 +96,7 @@ export default function MapPage() {
                 }
                 markerGoal.current.setPosition(currentCoord.current);
 
-                if (markerStart.current && markerGoal.current) {
-                  getPath(
-                    `${markerStart.current.getPosition()?.x},${
-                      markerStart.current.getPosition()?.y
-                    }`,
-                    `${markerGoal.current.getPosition()?.x},${
-                      markerGoal.current.getPosition()?.y
-                    }`
-                  );
-                }
+                drawDrivingPath();
 
                 setShowMapModal(false);
               }}
